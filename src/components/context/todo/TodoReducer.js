@@ -23,7 +23,7 @@ const handlers = {
             })
         };
     },
-    [REMOVE_TODO]: (state, id) => {
+    [REMOVE_TODO]: (state, {id}) => {
         return {
             ...state,
             todos: state.todos.filter(todo => todo.id !== id)
