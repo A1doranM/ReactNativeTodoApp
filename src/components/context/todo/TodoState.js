@@ -43,21 +43,30 @@ export const TodoState = ({children}) => {
     };
 
     const fetchTodos = async () => {
-        const response = await fetch("https://reactnativetodo-81d30.firebaseio.com/todos.json", {
-            method: "GET",
-            headers: {"Content-Type": "application/json"}
-        });
-        const data = await response.json();
-        const todos = Object.keys(data).map(key => {
-            return {
-                ...data[key],
-                id: key
-            };
-        });
-        dispatch({
-            type: FETCH_TODOS,
-            todos: todos,
-        });
+        showLoader();
+        clearError();
+
+        try {
+            const response = await fetch("https://reactnativetodo-81d30.firebaseio.com/todos.json", {
+                method: "GET",
+                headers: {"Content-Type": "application/json"}
+            });
+            const data = await response.json();
+            const todos = Object.keys(data).map(key => {
+                return {
+                    ...data[key],
+                    id: key
+                };
+            });
+            dispatch({
+                type: FETCH_TODOS,
+                todos: todos,
+            });
+        } catch (e) {
+            showError("Something wrong...");
+        } finally {
+            hideLoader();
+        }
     };
 
     const updateTodo = (id, title) => {
@@ -94,13 +103,9 @@ export const TodoState = ({children}) => {
         );
     };
 
-    const showLoader = () => {
-        dispatch({type: SHOW_LOADER});
-    };
+    const showLoader = () => dispatch({ type: SHOW_LOADER });
 
-    const hideLoader = () => {
-        dispatch({type: HIDE_LOADER});
-    };
+    const hideLoader = () => dispatch({ type: HIDE_LOADER });
 
     const showError = (error) => {
         dispatch({

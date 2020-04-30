@@ -5,6 +5,10 @@ import {Todo} from "../components/Todo";
 import {THEME} from "../theme";
 import {TodoContext} from "../components/context/todo/TodoContext";
 import {ScreenContext} from "../components/context/screen/ScreenContext";
+import {AppLoader} from "../components/ui/AppLoader";
+import {AppText} from "../components/ui/AppText";
+import {AppButton} from "../components/ui/AppButton";
+import ErrorScreen from "./ErrorScreen";
 
 export const MainScreen = () => {
     const {addTodo, todos, removeTodo, fetchTodos, loading, error} = useContext(TodoContext);
@@ -31,6 +35,20 @@ export const MainScreen = () => {
             Dimensions.removeEventListener("change", update);
         };
     }, []);
+
+    if (loading) {
+        return <AppLoader />
+    }
+
+    if(error) {
+        return (
+           <ErrorScreen
+               errText={error}
+               btnText="Try one more time."
+               onPress={loadTodos}
+           />
+        )
+    }
 
     let content = (
         <View style={{width: deviceWidth}}>
@@ -74,5 +92,5 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode: "contain"
-    }
+    },
 });
