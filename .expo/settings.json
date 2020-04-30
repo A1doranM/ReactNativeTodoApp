@@ -1,8 +1,8 @@
 {
+  "urlRandomness": "yz-yhc",
   "hostType": "lan",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "pk-zrt",
   "https": false
 }
